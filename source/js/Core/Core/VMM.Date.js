@@ -72,8 +72,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 				trace("DEBUG THIS, ITs A DATE");
 				date = d;
 			} else {
-				date = new Date(0, 0, 1, 0, 0, 0, 0);
-				
+				date = new Date(0); 
+				date.setMonth(0); date.setDate(1); date.setHours(0); date.setMinutes(0); date.setSeconds(0); date.setMilliseconds(0);
 				if ( d.match(/,/gi) ) {
 					date_array = d.split(",");
 					for(var i = 0; i < date_array.length; i++) {
@@ -143,7 +143,11 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 						p.year = true;
 					}
 					if (date_array[0] >= 0) {
-						date.setMonth(date_array[0] - 1);
+						var month = date_array[0] - 1;
+						date.setMonth(month);
+						// if (date.getMonth() != month) { 
+						// 	date.setMonth(month); // WTF javascript?
+						// }
 						p.month = true;
 					}
 					if (date_array[1] >= 0) {
@@ -451,7 +455,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 	 */
 
 	var dateFormat = function () {
-		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[WLloSZ]|"[^"]*"|'[^']*'/g,
 			timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
 			timezoneClip = /[^-+\dA-Z]/g,
 			pad = function (val, len) {
@@ -496,6 +500,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 				M = date[_ + "Minutes"](),
 				s = date[_ + "Seconds"](),
 				L = date[_ + "Milliseconds"](),
+				W = date.getWeek(),
 				o = utc ? 0 : date.getTimezoneOffset(),
 				flags = {
 					d:    d,
@@ -524,7 +529,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 					TT:   H < 12 ? "AM" : "PM",
 					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
 					o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
-					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+					W: 	W
 				};
 
 			return mask.replace(token, function ($0) {

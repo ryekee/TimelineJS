@@ -23,10 +23,25 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			media.type = "twitter-ready";
 		    media.id = d;
 		    success = true;
+		} else if (d.match('<blockquote')) {
+			media.type = "quote";
+			media.id = d;
+			success = true;
+		} else if (d.match('<iframe')) {
+			media.type = "iframe";
+			trace("IFRAME")
+			regex = /src=['"](\S+?)['"]/;
+			group = d.match(regex);
+			if (group) {
+				media.id = group[1];
+			}
+			trace( "iframe url: " + media.id );
+			success = Boolean(media.id);
 		} else if (d.match('(www.)?youtube|youtu\.be')) {
 			if (d.match('v=')) {
 				media.id	= VMM.Util.getUrlVars(d)["v"];
 			} else if (d.match('\/embed\/')) {
+				// TODO Issue #618 better splitting
 				media.id	= d.split("embed\/")[1].split(/[?&]/)[0];
 			} else if (d.match(/v\/|v=|youtu\.be\//)){
 				media.id	= d.split(/v\/|v=|youtu\.be\//)[1].split(/[?&]/)[0];
@@ -69,9 +84,13 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			}
 			media.type = "twitter";
 			success = true;
-		} else if (d.match("maps.google") && !d.match("staticmap")) {
+		} else if (d.match("maps.google") && !d.match("staticmap") && !d.match('streetview')) {
 			media.type = "google-map";
-		    media.id = d.split(/src=['|"][^'|"]*?['|"]/gi);
+		    media.id = d;
+			success = true;
+		} else if (d.match(/www.google.\w+\/maps/)) {
+			media.type = "google-map";
+		    media.id = d;
 			success = true;
 		} else if (d.match("plus.google")) {
 			media.type = "googleplus";
@@ -84,17 +103,21 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 				media.user = d.split("google.com/")[1].split("/posts/")[0];
 			}
 			success = true;
-		} else if (d.match("flickr.com/photos")) {
+		} else if (d.match("flickr.com/photos/")) {
 			media.type = "flickr";
-			media.id = d.split("photos\/")[1].split("/")[1];
+			media.id = VMM.ExternalAPI.flickr.getFlickrIdFromUrl(d)
 			media.link = d;
-			success = true;
-		} else if (d.match("instagr.am/p/")) {
+			success = Boolean(media.id);
+		} else if (VMM.ExternalAPI.instagram.isInstagramUrl(d)) {
 			media.type = "instagram";
 			media.link = d;
-			media.id = d.split("\/p\/")[1].split("/")[0];
-			success = true;
-		} else if (d.match(/jpg|jpeg|png|gif/i) || d.match("staticmap") || d.match("yfrog.com") || d.match("twitpic.com")) {
+			media.id = VMM.ExternalAPI.instagram.getInstagramIdFromUrl(d)
+			success = Boolean(media.id);
+		} else if (d.match(/jpg|jpeg|png|gif|svg|bmp/i) || 
+				   d.match("staticmap") || 
+				   d.match("yfrog.com") || 
+				   d.match("twitpic.com") ||
+				   d.match('maps.googleapis.com/maps/api/streetview')) {
 			media.type = "image";
 			media.id = d;
 			success = true;
@@ -105,11 +128,12 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 		} else if (d.match('(www.)?wikipedia\.org')) {
 			media.type = "wikipedia";
 			//media.id = d.split("wiki\/")[1];
+			// TODO Issue #618 better splitting
 			var wiki_id = d.split("wiki\/")[1].split("#")[0].replace("_", " ");
 			media.id = wiki_id.replace(" ", "%20");
 			media.lang = d.split("//")[1].split(".wikipedia")[0];
 			success = true;
-		} else if (d.indexOf('http://') == 0) {
+		} else if (d.indexOf('http://') == 0 || d.indexOf('https://') == 0) {
 			media.type = "website";
 			media.id = d;
 			success = true;
@@ -117,20 +141,6 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaType == 'undefined') {
 			media.type = "storify";
 			media.id = d;
 			success = true;
-		} else if (d.match('blockquote')) {
-			media.type = "quote";
-			media.id = d;
-			success = true;
-		} else if (d.match('iframe')) {
-			media.type = "iframe";
-			trace("IFRAME")
-			regex = /src=['"](\S+?)['"]\s/;
-			group = d.match(regex);
-			if (group) {
-				media.id = group[1];
-			}
-			trace( "iframe url: " + media.id );
-			success = Boolean(media.id);
 		} else {
 			trace("unknown media");  
 			media.type = "unknown";

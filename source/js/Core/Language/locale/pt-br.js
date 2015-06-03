@@ -29,10 +29,10 @@ if(typeof VMM != 'undefined') {
 			return_to_title: "Voltar para o título",
 			expand_timeline: "Expandir Timeline",
 			contract_timeline: "Contrair Timeline",
-			wikipedia: "Wikipedia, A enciclopédia livre",
+			wikipedia: "Wikipédia, A enciclopédia livre",
 			loading_content: "Carregando Conteúdo",
-			loading: "Carregando"
-			
+			loading: "Carregando",
+			swipe_nav: "Swipe to Navigate"			
 		}
 	}
 }

@@ -131,22 +131,16 @@ if(typeof VMM != 'undefined') {
 			});
 			/* CHECK FOR IE
 			================================================== */
-			if ( VMM.Browser.browser == "Explorer" && parseInt(VMM.Browser.version, 10) >= 7 && window.XDomainRequest) {
-				trace("IE JSON");
-				var ie_url = url;
-				if (ie_url.match('^http://')){
-					return jQuery.getJSON(ie_url, data, callback);
-				} else if (ie_url.match('^https://')) {
-					ie_url = ie_url.replace("https://","http://");
-					return jQuery.getJSON(ie_url, data, callback);
-				} else {
-					return jQuery.getJSON(url, data, callback);
-				}
-				
-			} else {
-				return jQuery.getJSON(url, data, callback);
-
+			if ( VMM.Browser.browser == "Explorer" && 
+				 parseInt(VMM.Browser.version, 10) >= 7 && 
+				 window.XDomainRequest && 
+				 url.match('^https?://')) {
+				trace("old IE JSON doesn't like retrieving from different protocol");
+					var colon = url.indexOf(':');
+					url = url.substr(colon+1); 
 			}
+			return jQuery.getJSON(url, data, callback);
+
 		}
 	}
 	

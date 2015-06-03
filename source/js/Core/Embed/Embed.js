@@ -8,9 +8,10 @@
 
 var WebFontConfig;
 
-if(typeof embed_path == 'undefined' || typeof embed_path == 'undefined') {
+if(typeof embed_path == 'undefined') {
 	// REPLACE WITH YOUR BASEPATH IF YOU WANT OTHERWISE IT WILL TRY AND FIGURE IT OUT
-	var embed_path = getEmbedScriptPath("storyjs-embed.js").split("js/")[0];
+	var _tmp_script_path = getEmbedScriptPath("storyjs-embed.js");
+	var embed_path = _tmp_script_path.substr(0,_tmp_script_path.lastIndexOf('js/'))
 }
 
 function getEmbedScriptPath(scriptname) {
@@ -154,6 +155,7 @@ function createStoryJS(c, src) {
 	================================================== */
 	// Check for old installs still using the old method of language
 	if (storyjs_e_config.js.match("locale")) {
+		// TODO Issue #618 better splitting
 		storyjs_e_config.lang = storyjs_e_config.js.split("locale/")[1].replace(".js", "");
 		storyjs_e_config.js		= path.js + 'timeline-min.js?' + js_version;
 	}
@@ -200,6 +202,7 @@ function createStoryJS(c, src) {
 		// FONT CSS
 		var fn;
 		if (storyjs_e_config.font.match("/")) {
+			// TODO Issue #618 better splitting
 			fn				= storyjs_e_config.font.split(".css")[0].split("/");
 			path.font.name	= fn[fn.length -1];
 			path.font.css	= storyjs_e_config.font;
@@ -231,13 +234,15 @@ function createStoryJS(c, src) {
 	    ready.has_jquery = jQuery;
 	    ready.has_jquery = true;
 		if (ready.has_jquery) {
-			var jquery_version = parseFloat(jQuery.fn.jquery);
-			if (jquery_version < parseFloat(jquery_version_required) ) {
-				//console.log("NOT THE REQUIRED VERSION OF JQUERY, LOADING THE REQUIRED VERSION");
-				//console.log("YOU HAVE VERSION " + jQuery.fn.jquery + ", JQUERY VERSION " + jquery_version_required + " OR ABOVE NEEDED");
-				ready.jquery = false;
-			} else {
-				ready.jquery = true;
+			var jquery_version_array = jQuery.fn.jquery.split(".");
+			var jquery_version_required_array = jquery_version_required.split(".");
+			ready.jquery = true;
+			for (i = 0; i < 2; i++) {
+				var have = jquery_version_array[i], need = parseFloat(jquery_version_required_array[i]);
+				if (have != need) {
+					ready.jquery = have > need;
+					break;
+				}
 			}
 		}
 	} catch(err) {

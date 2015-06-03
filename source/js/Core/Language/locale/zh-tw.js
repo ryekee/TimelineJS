@@ -7,22 +7,22 @@ if(typeof VMM != 'undefined') {
 			wikipedia: "zh"
 		},
 		date: {
-			month: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-			month_abbr: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+			month: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+			month_abbr: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 			day: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
 			day_abbr: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"]
 		}, 
 		dateformats: {
-			year: "yyyy",
+			year: "yyyy年",
 			month_short: "mmm",
-			month: "mmmm yyyy",
-			full_short: "d mmm",
-			full: "d mmmm yyyy",
+			month: "yyyy年 mmmm",
+			full_short: "mmm d",
+			full: "yyyy年mmmm d日",
 			time_short: "HH:MM:ss",
 			time_no_seconds_short: "HH:MM",
-			time_no_seconds_small_date: "HH:MM'<br/><small>'d mmmm yyyy'</small>'",
-			full_long: "dddd',' d mmm yyyy 'um' HH:MM",
-			full_long_small_date: "HH:MM'<br/><small>'dddd',' d mmm yyyy'</small>'"
+			time_no_seconds_small_date: "HH:MM'<br/><small>'yyyy年mmmm d日'</small>'",
+			full_long: "dddd',' yyyy年mmmm d日 'um' HH:MM",
+			full_long_small_date: "HH:MM'<br/><small>'dddd',' yyyy年mmmm d日'</small>'"
 		},
 		messages: {
 			loading_timeline: "載入時間線... ",
@@ -31,8 +31,8 @@ if(typeof VMM != 'undefined') {
 			contract_timeline: "縮短時間",
 			wikipedia: "擷取自維基百科, 自由之百科全書",
 			loading_content: "載入內容",
-			loading: "載入中"
-			
+			loading: "載入中",
+			swipe_nav: "Swipe to Navigate"			
 		}
 	}
 }

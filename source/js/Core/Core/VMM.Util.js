@@ -8,6 +8,12 @@ if(typeof VMM != 'undefined' && typeof VMM.Util == 'undefined') {
 			return this;
 		},
 		
+		removeRange: function(array, from, to) { // rather than change Array.prototype; Thanks Jeff McWhirter for nudge
+  			var rest = array.slice((to || from) + 1 || array.length);
+  			array.length = from < 0 ? array.length + from : from;
+  			return array.push.apply(array, rest);
+		},
+
 		/*	* CORRECT PROTOCOL (DOES NOT WORK)
 		================================================== */
 		correctProtocol: function(url) {
@@ -103,20 +109,6 @@ if(typeof VMM != 'undefined' && typeof VMM.Util == 'undefined') {
 				out.push(i);
 			}
 			return out;
-		},
-		
-		/*	* Given an int or decimal, turn that into string in $xxx,xxx.xx format.
-		================================================== */
-		number2money: function(n, symbol, padding) {
-			var symbol = (symbol !== null) ? symbol : true; // add $
-			var padding = (padding !== null) ? padding : false; //pad with .00
-			var number = VMM.Math2.floatPrecision(n,2); // rounded correctly to two digits, if decimals passed
-			var formatted = this.niceNumber(number);
-			// no decimal and padding is enabled
-			if (!formatted.split(/\./g)[1] && padding) formatted = formatted + ".00";
-			// add money sign
-			if (symbol) formatted = "$"+formatted;
-			return formatted;
 		},
 		
 		/*	* Returns a word count number
@@ -244,7 +236,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Util == 'undefined') {
 			    return text.replace(exp, "<a href='$1' target='_blank'>$3</a>");
 			}
 			// Email addresses
-			var emailAddressPattern = /(([a-zA-Z0-9_\-\.]+)@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6}))+/gim;
+			var emailAddressPattern = /([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)/gim;
 			
 			//var twitterHandlePattern = /(@([\w]+))/g;
 			var twitterHandlePattern = /\B@([\w-]+)/gm;
@@ -286,7 +278,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Util == 'undefined') {
 			if (!text) {
 				return text;
 			}
-			text = text.replace(/<\s*\w.*?>/g,"");
+			text = text.replace(/<\/?\s*\w.*?>/g,"");
 			return text;
 		},
 		

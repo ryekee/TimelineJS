@@ -12,7 +12,7 @@
   
  [UglifyJS](https://github.com/mishoo/UglifyJS)
  
-    # npm install -g uglify-js@1
+    # npm install -g uglify-js@">=2.4"
 
 ## Setup
 
@@ -22,10 +22,8 @@
     # Clone the secrets repository (if necessary)
     git clone git@github.com:NUKnightLab/secrets.git
   
-    # Clone the cdn repository (if necessary)
+    # Clone KnightLab support repositories (General public, you can skip this step)
     git clone git@github.com:NUKnightLab/cdn.knightlab.com.git
- 
-    # Clone the fablib repository (if necessary)
     git clone git@github.com:NUKnightLab/fablib.git
  
     # Clone the timeline repository (and the submodules)
@@ -66,6 +64,15 @@ Documentation site files are in the `website` directory. To review your edits lo
 ## Deploying updates to the documentation site (timeline.knightlab.com)
 
 To deploy to S3, type `fab deploy`.
+
+## Adding support for a new language
+
+* Add the file with the correct ISO-639 language code name in the `source/js/Core/Language/locale` directory.
+* Update website/templates/_make.html to refer to the new file (remember to sort alphabetically by language name, not code)
+* create a test timeline using the new language to verify that it basically works
+* deploy a new version (don't forget to stage_wp)
+* update knightlab-timeline.php in the TimelineJS-Wordpress-Plugin repo and release that too.
+
 
 ## Deploying javascript changes to the CDN
 

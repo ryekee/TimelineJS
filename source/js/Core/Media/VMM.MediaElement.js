@@ -21,24 +21,25 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 			if (h != null && h != "") {_h = h};
 			if (uid != null && uid != "") {_uid = uid};
 			
-			if (data.media != null && data.media != "") {
+
+			if (data.thumbnail != null && data.thumbnail != "") {
+					trace("CUSTOM THUMB");
+					mediaElem =	"<div class='thumbnail thumb-custom' id='" + uid + "_custom_thumb'><img src='" + data.thumbnail + "'></div>";
+					return mediaElem;
+			} else if (data.media != null && data.media != "") {
 				var _valid		= true,
 					mediaElem	= "",
 					m			= VMM.MediaType(data.media); //returns an object with .type and .id
 					
 				// DETERMINE THUMBNAIL OR ICON
-				if (data.thumbnail != null && data.thumbnail != "") {
-					trace("CUSTOM THUMB");
-					mediaElem		=	"<div class='thumbnail thumb-custom' id='" + uid + "_custom_thumb'><img src='" + data.thumbnail + "'></div>";
-					return mediaElem;
-				} else if (m.type == "image") {
+				if (m.type == "image") {
 					mediaElem		=	"<div class='thumbnail thumb-photo'></div>";
 					return mediaElem;
 				} else if (m.type	==	"flickr") {
 					mediaElem		=	"<div class='thumbnail thumb-photo' id='" + uid + "_thumb'></div>";
 					return mediaElem;
 				} else if (m.type	==	"instagram") {
-					mediaElem		=	"<div class='thumbnail thumb-instagram' id='" + uid + "_thumb'><img src='" + VMM.ExternalAPI.instagram.get(m.id, true) + "'></div>";
+					mediaElem		=	"<div class='thumbnail thumb-instagram' id='" + uid + "_thumb'><img src='" + VMM.ExternalAPI.instagram.get(m, true) + "'></div>";
 					return mediaElem;
 				} else if (m.type	==	"youtube") {
 					mediaElem		=	"<div class='thumbnail thumb-youtube' id='" + uid + "_thumb'></div>";
@@ -121,9 +122,6 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 				}
 			// IMAGE
 				if (m.type				==	"image") {
-					if (m.id.match("https://")) {
-						m.id = m.id.replace("https://","http://");
-					}
 					mediaElem			=	"<div class='media-image media-shadow'><img src='" + m.id + "' class='media-image'></div>";
 			// FLICKR
 				} else if (m.type		==	"flickr") {
@@ -133,7 +131,6 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 			// INSTAGRAM
 				} else if (m.type		==	"instagram") {
 					mediaElem			=	"<div class='media-image media-shadow'><a href='" + m.link + "' target='_blank'><img src='" + VMM.ExternalAPI.instagram.get(m) + "'></a></div>";
-					//VMM.ExternalAPI.instagram.get(m.id, uid);
 			// GOOGLE DOCS
 				} else if (m.type		==	"googledoc") {
 					mediaElem			=	"<div class='media-frame media-shadow doc' id='" + m.uid + "'>" + loading_messege + "</div>";
@@ -148,7 +145,7 @@ if(typeof VMM != 'undefined' && typeof VMM.MediaElement == 'undefined') {
 					VMM.ExternalAPI.vimeo.get(m);
 			// DAILYMOTION
 				} else if (m.type		==	"dailymotion") {
-					mediaElem			=	"<div class='media-shadow'><iframe class='media-frame video dailymotion' autostart='false' frameborder='0' width='100%' height='100%' src='http://www.dailymotion.com/embed/video/" + m.id + "'></iframe></div>";
+					mediaElem			=	"<div class='media-shadow'><iframe class='media-frame video dailymotion' autostart='false' frameborder='0' width='100%' height='100%' src='//www.dailymotion.com/embed/video/" + m.id + "'></iframe></div>";
 			// VINE
 				} else if (m.type		==	"vine") {
 					mediaElem			=	"<div class='media-shadow media-frame video vine' id='" + m.uid + "'>" + loading_messege + "</div>";

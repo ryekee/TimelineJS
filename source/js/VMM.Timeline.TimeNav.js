@@ -816,7 +816,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 				pos_cache_obj.row = row;
 				pos_cache_array.push(pos_cache_obj);
 				if (pos_cache_array.length > pos_cache_max) {
-					pos_cache_array.remove(0);
+					VMM.Util.removeRange(pos_cache_array,0);
 				}
 				
 				//if (is_animated && is_in_view) {
@@ -1545,6 +1545,9 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			
 			// CREATE TAGS
 			tags = VMM.Util.deDupeArray(tags);
+
+			config.tagSortFunction(tags);
+
 			if (tags.length > 3) {
 				config.nav.rows.current = config.nav.rows.half;
 			} else {

@@ -5,6 +5,7 @@
 	- [Add it to your site](#add-it-to-your-site)
 		- [Using Inline (easiest)](#using-inline-easiest)
 		- [Using a method (advanced)](#using-a-method-advanced)
+		- [Loading the files](#loading-the-files)
 	- [Config Options](#config-options)
 		- [Language](#language)
 		- [Start at End](#start-at-end)
@@ -40,6 +41,7 @@ Creating one is as easy as filling in a Google spreadsheet or as detailed as
 JSON.
  
 ## Add it to your site
+
 ### Using Inline (*easiest*)
 Place the embed code where you want the timeline to show in the `<body>` of your site. See [Config Options](#config-options) for a full list of what you can set in the config.
 
@@ -63,7 +65,7 @@ Place the embed code where you want the timeline to show in the `<body>` of your
 			js:					'path_to_js/timeline-min.js'	//OPTIONAL PATH TO JS
 		}
 	</script>
-	<script type="text/javascript" src="path_to_js/storyjs-embed.js"></script>
+	<script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"></script>
 ```
 ### Using a method (*advanced*)
 You could also initialize a new timeline using the `createStoryJS` method after `storyjs-embed.js` has been loaded
@@ -84,7 +86,7 @@ Here's a simple example:
 		<!-- jQuery -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<!-- BEGIN TimelineJS -->
-		<script type="text/javascript" src="path_to_js/storyjs-embed.js"></script>
+		<script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"></script>
 		<script>
 			$(document).ready(function() {
 				createStoryJS({
@@ -103,6 +105,24 @@ Here's a simple example:
 	</body>
 ```
 
+### Loading the files
+If you like, you may load TimelineJS from the KnightLab's CDN. The examples above demonstrate how to do this using `story-embed.js`, which is the simplest way to set up a Timeline of your own.
+
+If for some reason you need more fine-grained control over your timeline, load the javascript and CSS files separately. We recommend that you load them from our CDN.
+
+```html
+<!-- always load the CSS -->
+<link rel="stylesheet" type="text/css" href="http://cdn.knightlab.com/libs/timeline/latest/css/timeline.css">
+<!-- and then one of either -->
+<script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/timeline.js"></script>
+<!-- or -->
+<script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
+<!-- but no need for both -->
+```
+
+If you need to use the files on an HTTPS server, you can change the beginning of the url from `http://cdn.knightlab.com/libs/timeline/` to `https://s3.amazonaws.com/cdn.knightlab.com/libs/timeline/` 
+
+If you need to serve copies of the files from your own server, use the entire contents of the ["/build/" directory](https://github.com/NUKnightLab/TimelineJS/tree/master/build) of our GitHub repository. If you use a local copy of `story-embed.js` it should automatically load the other Timeline resources from your server.
 	
 ## Config Options
 Here are some of the options you can set in the config.
@@ -136,49 +156,69 @@ Localization
 *default is `en` English*
 Languages available:
 * `af` *Afrikaans*
-* `ar` *Arabic (beta)*
+* `ar` *Arabic*
+* `hy` *Armenian*
+* `eu` *Basque*
+* `be` *Belarusian*
 * `bg` *Bulgarian*
 * `ca` *Catalan*
+* `zh-cn` *Chinese*
+* `hr` *Croatian / Hrvatski*
 * `cz` *Czech*
 * `da` *Danish*
+* `nl` *Dutch*
+* `en` *English*
+* `en-24hr` *English (24-hour time)*
+* `eo` *Esperanto*
+* `et` *Estonian*
+* `fo` *Faroese*
+* `fa` *Farsi*
+* `fi` *Finnish*
+* `fr` *French*
+* `fy` *Frisian*
+* `gl` *Galician*
+* `ka` *Georgian*
 * `de` *German / Deutsch*
 * `el` *Greek*
-* `en` *English*
-* `es` *Spanish*
-* `eu` *Basque/ Euskara*
-* `fi` *Finnish*
-* `fo` *Faroese*
-* `fr` *French*
-* `gl` *Galician*
+* `he` *Hebrew*
+* `hi` *Hindi*
 * `hu` *Hungarian*
-* `hy` *Armenian*
-* `id` *Indonesian*
 * `is` *Icelandic*
+* `id` *Indonesian*
+* `ga` *Irish*
 * `it` *Italian*
-* `iw` *Hebrew (beta)*
 * `ja` *Japanese*
-* `ka` *Georgian*
 * `ko` *Korean*
 * `lv` *Latvian*
-* `nl` *Dutch*
+* `lt` *Lithuanian*
+* `lb` *Luxembourgish*
+* `ms` *Malay*
+* `ne` *Nepali*
 * `no` *Norwegian*
 * `pl` *Polish*
-* `pt-br` *Brazilian Portuguese*
 * `pt` *Portuguese*
+* `pt-br` *Portuguese (Brazilian)*
+* `ro` *Romanian*
+* `rm` *Romansh*
 * `ru` *Russian*
+* `sr-cy` *Serbian - Cyrillic*
+* `sr` *Serbian - Latin*
+* `si` *Sinhalese*
 * `sk` *Slovak*
 * `sl` *Slovenian*
-* `sr-cy` *Serbian (Cyrillic)*
-* `sr` *Serbian (Latin)*
+* `es` *Spanish*
 * `sv` *Swedish*
-* `ta` *Tamil*
 * `tl` *Tagalog*
-* `tr` *Turkish*
-* `zh-cn` *Chinese*
+* `ta` *Tamil*
 * `zh-tw` *Taiwanese*
+* `te` *Telugu*
+* `th` *Thai*
+* `tr` *Turkish*
+* `uk` *Ukrainian*
 
 
-Help us add more. Grab a copy of a language file and replace it with your language [Example language file](https://github.com/VeriteCo/StoryJS-Core/blob/master/Language/locale/en.js) and find your language's [two letter code here](http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+
+Help us add more. Grab a copy of a language file and replace it with your language [Example language file](https://github.com/NUKnightLab/TimelineJS/blob/master/source/js/Core/Language/locale/en.js) and find your language's [two letter code here](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
 
 ###Start at End 
 `start_at_end`
@@ -192,7 +232,7 @@ You can tell TimelineJS to start at a specific slide number
 
 ###Start Zoom Adjust
 `start_zoom_adjust`
-This will tweak the default zoom level. Equivilent to pressing the zoom in or zoom out button the specified number of times. Negative numbers zoom out.
+This will tweak the default zoom level. Equivalent to pressing the zoom in or zoom out button the specified number of times. Negative numbers zoom out.
 *default is 0*
 
 ###Hash Bookmark 
@@ -225,26 +265,32 @@ Due to recent changes to the Google Maps API, you need a [API Key](https://devel
 	* `HYBRID`
 	* `SATELLITE`
 
+* OpenStreetMap
+	- `osm`
+
 ###Font Options 
 `font:`
-* `Arvo-PTSans`
-* `Merriweather-NewsCycle`
-* `PoiretOne-Molengo`
-* `PTSerif-PTSans`
-* `DroidSerif-DroidSans`
-* `Lekton-Molengo`
-* `NixieOne-Ledger`
-* `AbrilFatface-Average`
-* `PlayfairDisplay-Muli`
-* `Rancho-Gudea`
-* `Bevan-PotanoSans`
-* `BreeSerif-OpenSans`
-* `SansitaOne-Kameron`
-* `Pacifico-Arimo`
+* `AbrilFatface-Average` *Abril Fatface & Average*
+* `Arvo-PTSans` *Arvo & PT Sans*
+* `Bevan-PotanoSans` *Bevan & Potano Sans*
+* `BreeSerif-OpenSans` *Bree Serif & Open Sans*
+* `DroidSerif-DroidSans` *Droid Serif & Droid Sans*
+* `Georgia-Helvetica` *Georgia & Helvetica Neue*
+* `Lekton-Molengo` *Lekton & Molengo*
+* `Merriweather-NewsCycle` *Merriweather & News Cycle*
+* `NewsCycle-Merriweather` *News Cycle & Merriweather*
+* `NixieOne-Ledger` *Nixie One & Ledger*
+* `Pacifico-Arimo` *Pacifico & Arimo*
+* `PlayfairDisplay-Muli` *Playfair Display & Muli*
+* `PoiretOne-Molengo` *Poiret One & Molengo*
+* `PTSerif-PTSans` *PT Serif & PT Sans*
+* `PT` *PT Sans & PT Narrow & PT Serif*
+* `Rancho-Gudea` *Rancho & Gudea*
+* `SansitaOne-Kameron` *Sansita One & Kameron*
 * Or make your own
 
 ####Font Combination Preview:
-![Font Combination Preview](http://timeline.verite.co/gfx/font-options.png)
+![Font Combination Preview](http://timeline.knightlab.com/static/img/make/font-options.png)
 
 ## File Formats
 
@@ -271,8 +317,8 @@ Here is the full model:
 		},
 		"date": [
 			{
-				"startDate":"2011,12,10",
-				"endDate":"2011,12,11",
+				"startDate":"2011,12,10,07,02,10",
+				"endDate":"2011,12,11,08,11",
 				"headline":"Headline Goes Here",
 				"text":"<p>Body text goes here, some HTML is OK</p>",
 				"tag":"This is Optional",
@@ -342,15 +388,6 @@ storyjs_jsonp_data = {
 				"tag":"This is Optional"
 			}
 			
-		],
-		"chart": [
-			{
-				"startDate":"2011,12,10",
-				"endDate":"2011,12,11",
-				"headline":"Headline Goes Here",
-				"value":"28"
-			}
-			
 		]
 		
 	}
@@ -393,7 +430,7 @@ using Google Docs:
 	
 ### Storify:
 
-Support for Storify is still in it's early stages. It works though. Just paste a link to the storify story as the source.
+Support for Storify is still in its early stages. It works though. Just paste a link to the storify story as the source.
 
 ## Media
 
